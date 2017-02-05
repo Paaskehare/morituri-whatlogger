@@ -2,7 +2,6 @@ import time
 import hashlib
 
 from morituri.common import common
-from morituri.configure import configure
 from morituri.result import result
 
 version = "0.2.2"
@@ -50,8 +49,12 @@ class WhatLogger(result.Logger):
 
         # global
 
-        # version string; FIXME
-        lines.append("morituri version %s" % configure.version)
+        try:
+            from morituri.configure import configure
+            lines.append("morituri version %s" % configure.version)
+        except ImportError:
+            import morituri
+            lines.append("whipper version %s" % morituri.__version__)
         lines.append("")
 
 	lines.append("morituri-whatlogger version %s" % version)
